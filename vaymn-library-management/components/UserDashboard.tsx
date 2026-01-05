@@ -46,58 +46,66 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ user, books, onIssueBook,
   };
 
   return (
-    <div className="space-y-16 animate-fade-in-scale">
-      {/* Dynamic Profile Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-         <div className="lg:col-span-8 glass-panel p-10 rounded-[48px] flex flex-col md:flex-row items-center gap-10">
-            <div className="w-28 h-28 bg-[#1F2A44] text-white rounded-[40px] flex flex-col items-center justify-center shadow-2xl relative">
-               <span className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-1">Rank</span>
-               <span className="text-5xl font-bold leading-none heading-serif">{level}</span>
-               <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#5DA9E9] rounded-full flex items-center justify-center text-[10px] font-black">XP</div>
+    <div className="space-y-16 animate-spring">
+      {/* Student Profile Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+         <div className="lg:col-span-8 glass-panel p-12 rounded-[56px] flex flex-col md:flex-row items-center gap-12">
+            <div className="w-32 h-32 bg-[#1F2A44] text-white rounded-[44px] flex flex-col items-center justify-center shadow-2xl relative group">
+               <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Rank</span>
+               <span className="text-6xl font-black leading-none heading-serif">{level}</span>
+               <div className="absolute -bottom-3 -right-3 w-10 h-10 bg-[#5DA9E9] rounded-2xl flex items-center justify-center text-[11px] font-black shadow-lg group-hover:scale-110 transition-transform">XP</div>
             </div>
             <div className="flex-1 w-full text-center md:text-left">
-               <p className="text-[10px] font-bold text-[#5DA9E9] uppercase tracking-widest mb-2">Member Status</p>
-               <h4 className="text-4xl font-bold text-[#1F2A44] mb-5 heading-serif">{getLevelName(level)}</h4>
-               <div className="relative h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
+               <p className="text-[10px] font-black text-[#5DA9E9] uppercase tracking-[0.4em] mb-2">Student Academic Rank</p>
+               <h4 className="text-5xl font-bold text-[#1F2A44] mb-6 heading-serif">{getLevelName(level)}</h4>
+               <div className="relative h-4 bg-slate-100/80 rounded-full overflow-hidden mb-4 shadow-inner">
                   <div className="h-full bg-[#5DA9E9] progress-glow transition-all duration-1000" style={{ width: `${xpInLevel}%` }}></div>
                </div>
-               <div className="flex justify-between">
-                  <span className="text-xs font-bold text-slate-400">{xpInLevel} XP Earned</span>
-                  <span className="text-xs font-bold text-[#5DA9E9]">{100 - xpInLevel} XP to next rank</span>
+               <div className="flex justify-between px-1">
+                  <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{xpInLevel} / 100 XP</span>
+                  <span className="text-xs font-black text-[#5DA9E9] uppercase tracking-widest">{100 - xpInLevel} XP NEXT LEVEL</span>
                </div>
             </div>
          </div>
-         <div className="lg:col-span-4 glass-panel p-10 rounded-[48px] flex flex-wrap gap-4 items-center justify-center">
+         <div className="lg:col-span-4 glass-panel p-12 rounded-[56px] flex flex-wrap gap-4 items-center justify-center">
             {(user.badges || []).map((b, i) => (
-              <div key={i} className="w-14 h-14 bg-white shadow-sm rounded-2xl flex items-center justify-center text-[#5DA9E9] border border-blue-50 hover:scale-110 transition-transform">
-                <i className="fas fa-award text-2xl"></i>
+              <div key={i} className="w-16 h-16 bg-white shadow-md rounded-2xl flex items-center justify-center text-[#5DA9E9] border border-blue-50 hover:scale-110 hover:shadow-xl transition-all">
+                <i className="fas fa-certificate text-3xl"></i>
               </div>
             ))}
-            {(user.badges || []).length === 0 && <p className="text-sm font-medium text-slate-300 italic">No achievements yet</p>}
+            {(user.badges || []).length === 0 && (
+              <div className="text-center opacity-40">
+                <i className="fas fa-trophy text-4xl mb-4 text-slate-200"></i>
+                <p className="text-xs font-black uppercase tracking-[0.2em]">Unlock Badges</p>
+              </div>
+            )}
          </div>
       </div>
 
-      {/* Library Browser */}
+      {/* Library Browser Component */}
       <div className="space-y-12">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-           <h2 className="text-3xl font-bold heading-serif">Digital Archives</h2>
-           <div className="relative w-full md:w-96">
-              <i className="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-slate-300"></i>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+           <div className="space-y-1">
+             <h2 className="text-4xl font-bold text-[#1F2A44] heading-serif tracking-tighter">Student Library</h2>
+             <p className="text-xs font-black text-[#5DA9E9] uppercase tracking-[0.4em]">Browse Digital Collection</p>
+           </div>
+           <div className="relative w-full md:w-[450px]">
+              <i className="fas fa-search absolute left-8 top-1/2 -translate-y-1/2 text-slate-300"></i>
               <input 
                 value={search} onChange={e => setSearch(e.target.value)}
-                placeholder="Find a title or author..." 
-                className="w-full pl-14 pr-8 py-4 bg-white rounded-2xl border border-slate-100 shadow-sm outline-none focus:ring-4 focus:ring-blue-50 transition-all font-medium"
+                placeholder="Find titles, authors or ISBN..." 
+                className="w-full pl-16 pr-10 py-5 bg-white rounded-[32px] border-2 border-transparent shadow-sm outline-none focus:ring-8 focus:ring-blue-50/50 focus:border-[#5DA9E9] transition-all font-semibold text-sm"
               />
            </div>
         </div>
 
         {categorizedBooks.map(([genre, items], gIdx) => (
           <section key={genre} className="stagger-item" style={{ animationDelay: `${gIdx * 0.1}s` }}>
-             <div className="flex items-center gap-4 mb-8">
-                <h3 className="text-xl font-bold text-[#1F2A44] heading-serif">{genre}</h3>
-                <div className="h-[1px] flex-1 bg-slate-100"></div>
+             <div className="flex items-center gap-6 mb-10">
+                <h3 className="text-2xl font-bold text-[#1F2A44] heading-serif tracking-tight">{genre}</h3>
+                <div className="h-[2px] flex-1 bg-slate-100 rounded-full"></div>
              </div>
-             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-10">
                 {items.map((book, bIdx) => (
                   <div 
                     key={book.id} 
@@ -105,16 +113,17 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ user, books, onIssueBook,
                     className="group cursor-pointer stagger-item"
                     style={{ animationDelay: `${(gIdx * 0.1) + (bIdx * 0.05)}s` }}
                   >
-                     <div className="aspect-[3/4.5] overflow-hidden rounded-[32px] mb-4 relative shadow-md transition-all duration-500 group-hover:shadow-2xl group-hover:-translate-y-2 border border-slate-100">
-                        <img src={book.coverImage} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={book.title} />
+                     <div className="aspect-[3/4.5] overflow-hidden rounded-[40px] mb-5 relative shadow-xl transition-all duration-700 group-hover:shadow-[0_40px_80px_rgba(0,0,0,0.2)] group-hover:-translate-y-4 border border-slate-100">
+                        <img src={book.coverImage} className="w-full h-full object-cover group-hover:scale-115 transition-transform duration-1000" alt={book.title} />
                         {!book.isAvailable && (
-                          <div className="absolute inset-0 bg-[#1F2A44]/60 backdrop-blur-[2px] flex items-center justify-center p-4">
-                             <span className="text-[10px] font-black text-white uppercase tracking-widest bg-red-500 px-3 py-1.5 rounded-lg shadow-xl">Borrowed</span>
+                          <div className="absolute inset-0 bg-[#1F2A44]/70 backdrop-blur-[3px] flex items-center justify-center p-6">
+                             <span className="text-[10px] font-black text-white uppercase tracking-[0.2em] bg-red-500 px-4 py-2 rounded-xl shadow-2xl">Checked Out</span>
                           </div>
                         )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                      </div>
-                     <h5 className="font-bold text-sm text-[#1F2A44] truncate heading-serif px-1">{book.title}</h5>
-                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">{book.author}</p>
+                     <h5 className="font-bold text-base text-[#1F2A44] truncate heading-serif px-2">{book.title}</h5>
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-2">{book.author}</p>
                   </div>
                 ))}
              </div>
@@ -122,38 +131,39 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ user, books, onIssueBook,
         ))}
       </div>
 
-      {/* Book Detail Viewer (Modal) */}
+      {/* Book Interaction Modal */}
       {selectedBook && (
-        <div className="fixed inset-0 z-[400] bg-[#1F2A44]/60 backdrop-blur-md flex items-center justify-center p-6 animate-fade-in">
-           <div className="bg-white rounded-[60px] w-full max-w-5xl flex flex-col md:flex-row overflow-hidden shadow-2xl animate-fade-in-scale">
-              <div className="md:w-5/12 relative">
+        <div className="fixed inset-0 z-[500] bg-[#0B0F1A]/80 backdrop-blur-xl flex items-center justify-center p-8 animate-fade-in">
+           <div className="bg-white rounded-[72px] w-full max-w-6xl flex flex-col md:flex-row overflow-hidden shadow-[0_100px_150px_rgba(0,0,0,0.5)] animate-spring">
+              <div className="md:w-5/12 relative h-[400px] md:h-auto">
                  <img src={selectedBook.coverImage} className="w-full h-full object-cover" alt="" />
-                 <button onClick={() => setSelectedBook(null)} className="absolute top-10 left-10 w-12 h-12 glass-panel text-white rounded-2xl flex items-center justify-center hover:bg-white hover:text-[#1F2A44] transition-all"><i className="fas fa-times"></i></button>
+                 <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
+                 <button onClick={() => setSelectedBook(null)} className="absolute top-12 left-12 w-14 h-14 glass-panel text-[#1F2A44] rounded-2xl flex items-center justify-center hover:bg-[#1F2A44] hover:text-white transition-all shadow-2xl"><i className="fas fa-times text-xl"></i></button>
               </div>
-              <div className="flex-1 p-12 md:p-16 flex flex-col overflow-y-auto max-h-[90vh]">
-                 <div className="flex gap-3 mb-8">
-                    <span className="px-4 py-1.5 bg-blue-50 text-[#5DA9E9] text-[10px] font-black uppercase tracking-widest rounded-full">{selectedBook.genre}</span>
-                    <span className="px-4 py-1.5 bg-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-widest rounded-full">{selectedBook.language}</span>
+              <div className="flex-1 p-16 md:p-24 flex flex-col overflow-y-auto max-h-[90vh]">
+                 <div className="flex gap-4 mb-10">
+                    <span className="px-5 py-2 bg-blue-50 text-[#5DA9E9] text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-blue-100">{selectedBook.genre}</span>
+                    <span className="px-5 py-2 bg-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-slate-100">{selectedBook.language}</span>
                  </div>
-                 <h2 className="text-4xl md:text-5xl font-bold text-[#1F2A44] mb-3 heading-serif leading-tight">{selectedBook.title}</h2>
-                 <p className="text-xl font-bold text-[#5DA9E9] mb-10">{selectedBook.author}</p>
-                 <div className="flex-1 mb-12">
-                    <p className="text-lg text-slate-500 font-medium leading-relaxed italic border-l-4 border-slate-100 pl-6">"{selectedBook.description}"</p>
+                 <h2 className="text-5xl md:text-6xl font-bold text-[#1F2A44] mb-4 heading-serif leading-none tracking-tighter">{selectedBook.title}</h2>
+                 <p className="text-2xl font-bold text-[#5DA9E9] mb-12 tracking-tight">{selectedBook.author}</p>
+                 <div className="flex-1 mb-16">
+                    <p className="text-xl text-slate-500 font-medium leading-relaxed italic border-l-8 border-slate-50 pl-10">"{selectedBook.description}"</p>
                  </div>
                  
-                 <div className="pt-8 border-t border-slate-50">
+                 <div className="pt-12 border-t border-slate-50 flex gap-6">
                     {selectedBook.isAvailable ? (
-                      <button onClick={() => { onIssueBook(selectedBook.id); setSelectedBook(null); }} className="w-full py-6 bg-[#1F2A44] text-white rounded-3xl font-black uppercase tracking-widest shadow-xl hover:bg-slate-800 transition-all active:scale-95">Issue to my account</button>
+                      <button onClick={() => { onIssueBook(selectedBook.id); setSelectedBook(null); }} className="flex-1 py-7 bg-[#1F2A44] text-white rounded-[32px] font-black uppercase tracking-[0.3em] shadow-[0_24px_48px_rgba(31,42,68,0.3)] hover:bg-[#2a3a5e] hover:-translate-y-1 transition-all active:scale-95">Issue to my account</button>
                     ) : selectedBook.issuedTo === user.libraryId ? (
-                      <div className="bg-blue-50 p-8 rounded-[40px] flex items-center justify-between shadow-inner">
+                      <div className="flex-1 bg-blue-50/50 p-10 rounded-[48px] flex items-center justify-between border border-blue-100/50">
                          <div>
-                            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Due in</p>
-                            <p className="text-3xl font-bold text-[#1F2A44]">{calculateDaysLeft(selectedBook.issuedDate)} Days</p>
+                            <p className="text-[10px] font-black text-[#5DA9E9] uppercase tracking-[0.4em] mb-2">Loan Expiry</p>
+                            <p className="text-4xl font-bold text-[#1F2A44] tracking-tighter">{calculateDaysLeft(selectedBook.issuedDate)} Days Left</p>
                          </div>
-                         <button onClick={() => { onReIssueBook(selectedBook.id); setSelectedBook(null); }} className="px-10 py-5 bg-white text-[#1F2A44] rounded-2xl font-black text-[10px] uppercase shadow-md hover:bg-[#5DA9E9] hover:text-white transition-all">Renew Loan</button>
+                         <button onClick={() => { onReIssueBook(selectedBook.id); setSelectedBook(null); }} className="px-12 py-6 bg-white text-[#1F2A44] rounded-[24px] font-black text-[10px] uppercase tracking-[0.2em] shadow-xl hover:bg-[#5DA9E9] hover:text-white transition-all">Renew Assets</button>
                       </div>
                     ) : (
-                      <button onClick={() => { onReserveBook(selectedBook.id); setSelectedBook(null); }} className="w-full py-6 bg-orange-500 text-white rounded-3xl font-black uppercase tracking-widest shadow-xl hover:bg-orange-600 transition-all">Join Waitlist</button>
+                      <button onClick={() => { onReserveBook(selectedBook.id); setSelectedBook(null); }} className="flex-1 py-7 bg-orange-500 text-white rounded-[32px] font-black uppercase tracking-[0.3em] shadow-[0_24px_48px_rgba(249,115,22,0.3)] hover:bg-orange-600 hover:-translate-y-1 transition-all active:scale-95">Join Priority Waitlist</button>
                     )}
                  </div>
               </div>
